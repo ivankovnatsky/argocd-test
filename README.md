@@ -6,14 +6,22 @@ This repository demonstrates a GitOps approach to managing Kubernetes infrastruc
 
 ```
 plaintext
-.
-├── argocd-install/ # ArgoCD installation manifests
-│ ├── helm-values.yaml # Helm values for ArgoCD installation
-│ └── repositories.yaml # ArgoCD repository configurations
-├── applications/ # ApplicationSets and application definitions
-│ ├── applicationset.yaml # ApplicationSet for deploying apps
-│ └── helm-repos.yaml # Helm repository configurations
-└── README.md # This documentation
+ .
+├──  apps
+│   ├──  ingress-nginx
+│   │   └──  values.yaml
+│   ├──  nginx-ingress
+│   │   ├──  config.json
+│   │   └──  values.yaml
+│   ├──  prometheus
+│   │   ├──  config.json
+│   │   └──  values.yaml
+│   └──  applicationset.yaml
+├──  argocd-install
+│   ├──  kustomization.yaml
+│   ├──  namespace.yaml
+│   └──  values.yaml
+└──  README.md
 ```
 
 ## Quick Start
