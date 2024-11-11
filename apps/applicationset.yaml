@@ -10,22 +10,24 @@ spec:
         revision: main
         directories:
           - path: apps/*
+        files:
+          - path: "apps/*/metadata.yaml"
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{path[1]}}'
       namespace: argocd
     spec:
       project: default
       source:
-        repoURL: '{{metadata.annotations.repoURL}}'
-        targetRevision: '{{metadata.annotations.version}}'
-        chart: '{{metadata.annotations.chart}}'
+        repoURL: '{{repoURL}}'
+        targetRevision: '{{version}}'
+        chart: '{{chart}}'
         helm:
           valueFiles:
-            - ./{{path.basename}}/values.yaml
+            - values.yaml
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{metadata.annotations.namespace}}'
+        namespace: '{{namespace}}'
       syncPolicy:
         automated:
           prune: true
