@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+
+resources:
+  - namespace.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.13.0/manifests/install.yaml
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: argocd-cm
+    patch: |
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+        name: argocd-cm
+        namespace: argocd
+      data:
+        statusbadge.enabled: "true"
+        repositories: |
+          - url: https://kubernetes.github.io/ingress-nginx
+            name: ingress-nginx
+            type: helm
+          - url: https://prometheus-community.github.io/helm-charts
+            name: prometheus
+            type: helm

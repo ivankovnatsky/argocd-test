@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: helm-apps-set
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/ivankovnatsky/argocd-test
+        revision: main
+        directories:
+          - path: apps/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: '{{metadata.annotations.repoURL}}'
+        targetRevision: '{{metadata.annotations.version}}'
+        chart: '{{metadata.annotations.chart}}'
+        helm:
+          valueFiles:
+            - ./{{path.basename}}/values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{metadata.annotations.namespace}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -1,0 +1,3 @@
+server:
+  replicaCount: 1
+  retention: 15d 
