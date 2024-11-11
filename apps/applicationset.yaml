@@ -4,30 +4,30 @@ metadata:
   name: helm-apps-set
   namespace: argocd
 spec:
+  goTemplate: true
   generators:
     - git:
         repoURL: https://github.com/ivankovnatsky/argocd-test
         revision: main
-        directories:
-          - path: apps/*
         files:
-          - path: "apps/*/metadata.yaml"
+          - path: "apps/*/config.json"
   template:
     metadata:
-      name: '{{path.basename}}'
+      name: '{{.releaseName}}'
       namespace: argocd
     spec:
-      project: default
+      project: '{{.project}}'
       source:
-        repoURL: '{{parameter.repoURL}}'
-        targetRevision: '{{parameter.version}}'
-        chart: '{{parameter.chart}}'
+        repoURL: '{{.repoURL}}'
+        targetRevision: '{{.version}}'
+        chart: '{{.chart}}'
         helm:
+          releaseName: '{{.releaseName}}'
           valueFiles:
             - values.yaml
       destination:
         server: https://kubernetes.default.svc
-        namespace: '{{parameter.namespace}}'
+        namespace: '{{.namespace}}'
       syncPolicy:
         automated:
           prune: true
