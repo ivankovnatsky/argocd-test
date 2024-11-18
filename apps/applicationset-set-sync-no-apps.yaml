@@ -4,13 +4,15 @@ metadata:
   name: helm-apps-set
   namespace: argocd
 spec:
+  syncPolicy:
+    applicationsSync: create-only
   goTemplate: true
   generators:
     - git:
         repoURL: https://github.com/ivankovnatsky/argocd-test
         revision: main
         files:
-          - path: apps/*/config.json
+          - path: apps/nginx-ingress/config.json
   template:
     metadata:
       name: '{{.releaseName}}'

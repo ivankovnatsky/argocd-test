@@ -4,11 +4,21 @@ metadata:
   name: helm-apps-set
   namespace: argocd
 spec:
+  syncPolicy:
+    applicationsSync: create-only
   goTemplate: true
   generators:
     - git:
         repoURL: https://github.com/ivankovnatsky/argocd-test
+        revision: main1
+        files:
+          - path: apps/prometheus/config.json
+    - git:
+        repoURL: https://github.com/ivankovnatsky/argocd-test
         revision: main
+        directories:
+          - path: apps/prometheus/
+            exclude: true
         files:
           - path: apps/*/config.json
   template:

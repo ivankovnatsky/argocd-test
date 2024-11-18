@@ -4,6 +4,8 @@ metadata:
   name: helm-apps-set
   namespace: argocd
 spec:
+  syncPolicy:
+    applicationsSync: create-only
   goTemplate: true
   generators:
     - git:

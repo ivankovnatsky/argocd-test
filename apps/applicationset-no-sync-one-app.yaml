@@ -10,7 +10,7 @@ spec:
         repoURL: https://github.com/ivankovnatsky/argocd-test
         revision: main
         files:
-          - path: apps/*/config.json
+          - path: apps/nginx-ingress/config.json
   template:
     metadata:
       name: '{{.releaseName}}'
