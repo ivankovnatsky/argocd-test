@@ -44,7 +44,7 @@ Get admin password
 
 ```console
 kubectl -n argocd get secret argocd-initial-admin-secret \
-    -o jsonpath="{.data.password}" | base64 -d
+    -o jsonpath="{.data.password}" | base64 -d | pbcopy
 ```
 
 Access UI (if not using Ingress)
